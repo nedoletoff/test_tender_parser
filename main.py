@@ -23,7 +23,8 @@ def fetch_tenders(max_count: int):
         print(f"Обрабатывается страница {page}")
         try:
             response = requests.get(url, headers=headers)
-            response.raise_for_status()
+            if response.status_code != 200:
+                raise Exception(f"Ошибка при запросе страницы {page}: {response.status_code}")
             soup = BeautifulSoup(response.text, 'html.parser')
             
             # Находим все тендеры на странице
